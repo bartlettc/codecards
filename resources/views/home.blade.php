@@ -7,7 +7,6 @@
     <title>codecards - for people who like to tweet code</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../css/app.css">
-    <link rel="stylesheet" type="text/css" href="../codemirror/lib/codemirror.css">
 
 
     <style>
@@ -61,8 +60,6 @@
             margin-left: 35px;
         }
 
-
-
         .status-footer {
             padding-left: 20px;
         }
@@ -73,28 +70,21 @@
     </style>
 </head>
 <body>
-<div class="container">
+<div class="container" id="app">
     <div class="logo">
         <a href="../index.html">
             <img src="../images/logo.png">
         </a>
     </div>
     <div class="section">
-        <div class="status-header">
-            <div class="indicator"></div>
-            <div class="title">All services are online.</div>
-            <div class="subtitle">As of August 1, 2016 at 11:08PM MST.</div>
-        </div>
+        <codemirror v-model="code" :options="editorOptions"></codemirror>
+    </div>
+    <div class="section">
 
 
     </div>
     <div class="section">
 
-<textarea id="editor">
-   {{  $code }}
-</textarea>
-    </div>
-    <div class="section">
         <div class="status-footer">
             <p>
                 <a href="#">Legal</a>
@@ -104,14 +94,7 @@
         </div>
     </div>
 </div>
-<script src="codemirror/lib/codemirror.js"></script>
 <script src="js/app.js"></script>
-<script>
-    var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
-        lineNumbers: true,
-        mode:  "PHP",
-        theme: "dracula"
-    });
-</script>
+
 </body>
 </html>
