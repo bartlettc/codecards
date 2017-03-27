@@ -77,10 +77,20 @@
         </a>
     </div>
     <div class="section">
+        <div id="codemirrorCanvas">
         <codemirror v-model="code" :options="editorOptions"></codemirror>
+        </div>
+
+        <div>
+        <p class="control">
+            <a class="button is-primary" id="create">Create Twitter Card</a>
+        </p>
+        </div>
     </div>
     <div class="section">
-
+        <div id="image_id">
+            <img src="" alt="image" />
+        </div>
 
     </div>
     <div class="section">

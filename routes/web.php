@@ -20,8 +20,13 @@ Route::get('/', function () {
 });
 
 
+Route::post('getimg', 'CardController@create');
+
+
 Route::group(['domain' => '{account}.codecards'], function () {
     Route::get('/{id}', function ($account, $id) {
         echo $id.' '.$account;
     });
+
+
 });
