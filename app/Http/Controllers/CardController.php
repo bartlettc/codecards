@@ -14,4 +14,9 @@ class CardController extends Controller
         $filename = $imageService->create($input['imgdata']);
         echo $filename;
     }
+
+
+    public function display($id) {
+        return $id;
+    }
 }

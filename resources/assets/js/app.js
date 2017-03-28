@@ -11,6 +11,9 @@ const app = new Vue({
         code: '',
         css: '.class { display: block }',
         csrfToken: Laravel.csrfToken,
+        title: "",
+        description: "",
+        user: "",
         editorOptions: {
             tabSize: 4,
             styleActiveLine: true,
@@ -29,19 +32,22 @@ const app = new Vue({
                 onrendered: function (canvas) {
                     const imagedata = canvas.toDataURL('image/png');
                     const imgdata = imagedata.replace(/^data:image\/(png|jpg);base64,/, "");
+
                     axios({
                         method: 'post',
                         url: 'getimg',
 
                         data: {
-                            imgdata: imgdata
+                            imgdata: imgdata,
+                            title: this.title,
+                            description: this.description,
+                            user: this.user,
                         },
                     }).then(function (response) {
                         console.log(response.data);
                     });
-
-                }
-            });
+                }.bind(this)
+            })
         }
     }
 

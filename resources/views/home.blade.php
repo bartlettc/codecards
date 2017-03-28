@@ -81,28 +81,44 @@
         </a>
     </div>
     <div class="section">
-        <div id="codemirrorCanvas">
-            <codemirror v-model="code" :options="editorOptions"></codemirror>
-        </div>
-        <div class="field">
-            <label class="label" for="title">Title</label>
-            <p class="control">
-                <input class="input" type="text" name="title" id="title" placeholder="Card title">
-            </p>
-        </div>
+        <div class="columns">
+            <div class="column is-two-thirds">
+                <label class="label" for="user">Code</label>
+                <div id="codemirrorCanvas" style="width:570px; height:300px;">
+                    <codemirror v-model="code" :options="editorOptions"></codemirror>
+                </div>
+            </div>
+            <div class="column is-one-third">
+                <div class="field">
+                    <label class="label" for="user">Twitter Username</label>
+                    <p class="control">
+                        <input v-model="user" class="input" type="text" name="user" id="user"
+                               placeholder="Username">
+                    </p>
+                </div>
 
-        <div class="field">
-            <label class="label" for="title">Description</label>
-            <p class="control">
-                <textarea class="textarea" name="description" id="description"
+                <div class="field">
+                    <label class="label" for="title">Title</label>
+                    <p class="control">
+                        <input v-model="title" class="input" type="text" name="title" id="title"
+                               placeholder="Card title">
+                    </p>
+                </div>
+
+                <div class="field">
+                    <label class="label" for="title">Description</label>
+                    <p class="control">
+                    <textarea v-model="description" class="textarea" name="description" id="description"
                           placeholder="Card description"></textarea>
-            </p>
-        </div>
+                    </p>
+                </div>
 
-        <div>
-            <p class="control">
-                <a class="button is-primary" v-on:click="takeSnapshot2">Create Twitter Card</a>
-            </p>
+                <div>
+                    <p class="control">
+                        <a class="button is-primary" @click="takeSnapshot2">Create Twitter Card</a>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
     <div class="section">

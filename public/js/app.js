@@ -17775,6 +17775,9 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
         code: '',
         css: '.class { display: block }',
         csrfToken: Laravel.csrfToken,
+        title: "",
+        description: "",
+        user: "",
         editorOptions: {
             tabSize: 4,
             styleActiveLine: true,
@@ -17790,20 +17793,24 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
         takeSnapshot2: function takeSnapshot2() {
             var codeView = document.getElementById('codemirrorCanvas');
             __WEBPACK_IMPORTED_MODULE_3_html2canvas___default()([codeView], {
-                onrendered: function onrendered(canvas) {
+                onrendered: function (canvas) {
                     var imagedata = canvas.toDataURL('image/png');
                     var imgdata = imagedata.replace(/^data:image\/(png|jpg);base64,/, "");
+
                     __WEBPACK_IMPORTED_MODULE_1_axios___default()({
                         method: 'post',
                         url: 'getimg',
 
                         data: {
-                            imgdata: imgdata
+                            imgdata: imgdata,
+                            title: this.title,
+                            description: this.description,
+                            user: this.user
                         }
                     }).then(function (response) {
                         console.log(response.data);
                     });
-                }
+                }.bind(this)
             });
         }
     }

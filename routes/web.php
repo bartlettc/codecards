@@ -21,12 +21,13 @@ Route::get('/', function () {
 
 
 Route::post('getimg', 'CardController@create');
+Route::get('/{id}', 'CardController@display');
 
-
-Route::group(['domain' => '{account}.codecards'], function () {
-    Route::get('/{id}', function ($account, $id) {
-        echo $id.' '.$account;
-    });
-
-
-});
+//
+//Route::group(['domain' => '{account}.codecards'], function () {
+//    Route::get('/{id}', function ($account, $id) {
+//        echo $id.' '.$account;
+//    });
+//
+//
+//});
