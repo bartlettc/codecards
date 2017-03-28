@@ -17778,6 +17778,7 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
         title: "",
         description: "",
         user: "",
+        uuid: "",
         editorOptions: {
             tabSize: 4,
             styleActiveLine: true,
@@ -17790,6 +17791,9 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     },
 
     methods: {
+        onEditorFocus: function onEditorFocus(editor) {
+            console.table(editor);
+        },
         takeSnapshot2: function takeSnapshot2() {
             var codeView = document.getElementById('codemirrorCanvas');
             __WEBPACK_IMPORTED_MODULE_3_html2canvas___default()([codeView], {
@@ -17808,7 +17812,7 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                             user: this.user
                         }
                     }).then(function (response) {
-                        console.log(response.data);
+                        this.uuid = response.data;
                     });
                 }.bind(this)
             });

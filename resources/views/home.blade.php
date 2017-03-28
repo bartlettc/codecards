@@ -85,7 +85,7 @@
             <div class="column is-two-thirds">
                 <label class="label" for="user">Code</label>
                 <div id="codemirrorCanvas" style="width:570px; height:300px;">
-                    <codemirror v-model="code" :options="editorOptions"></codemirror>
+                    <codemirror  @focus="onEditorFocus" v-model="code" :options="editorOptions"></codemirror>
                 </div>
             </div>
             <div class="column is-one-third">
@@ -122,18 +122,12 @@
         </div>
     </div>
     <div class="section">
-        <div id="image_id">
-            <img src="" alt="image"/>
-        </div>
-
-    </div>
-    <div class="section">
 
         <div class="status-footer">
             <p>
-                <a href="#">Legal</a>
+                <a href="#">Privacy</a>
                 <a href="#">About</a>
-                <a href="#">Jobs</a>
+                <a href="#">Github</a>
             </p>
         </div>
     </div>

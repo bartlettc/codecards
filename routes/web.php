@@ -12,6 +12,8 @@
 */
 
 Route::get('/', function () {
+
+
     return view('home', ['code' => '<?php 
     echo "hello world"; 
     function Hello() {

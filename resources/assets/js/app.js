@@ -14,6 +14,7 @@ const app = new Vue({
         title: "",
         description: "",
         user: "",
+        uuid: "",
         editorOptions: {
             tabSize: 4,
             styleActiveLine: true,
@@ -26,6 +27,11 @@ const app = new Vue({
     },
 
     methods: {
+
+        onEditorFocus(editor) {
+            console.table(editor);
+        },
+
         takeSnapshot2()  {
             const codeView = document.getElementById('codemirrorCanvas');
             html2canvas([codeView], {
@@ -44,7 +50,7 @@ const app = new Vue({
                             user: this.user,
                         },
                     }).then(function (response) {
-                        console.log(response.data);
+                        this.uuid = response.data;
                     });
                 }.bind(this)
             })
