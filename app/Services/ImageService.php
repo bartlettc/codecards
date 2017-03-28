@@ -18,19 +18,15 @@ class ImageService
      * Creates an image using base64 encoded data
      *
      * @param $base64Data
+     * @param string $directory
      * @return string
      */
-    public function create($base64Data): string
+    public function create($base64Data, $directory = 'public/'): string
     {
-        //TODO: Add exception handling;
         $imageData = base64_decode($base64Data, 1);
-
-        if (!$imageData) {
-            return false;
-        }
-
+        if (!$imageData) return false;
         $fileId = Uuid::uuid4()->toString();
-        Storage::put($fileId . '.png', $imageData);
+        Storage::put($directory.$fileId . '.png', $imageData);
         return $fileId;
 
     }

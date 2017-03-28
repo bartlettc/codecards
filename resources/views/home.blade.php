@@ -78,7 +78,20 @@
     </div>
     <div class="section">
         <div id="codemirrorCanvas">
-        <codemirror v-model="code" :options="editorOptions"></codemirror>
+            <codemirror v-model="code" :options="editorOptions"></codemirror>
+        </div>
+        <div class="field">
+            <label class="label" for="title">Title</label>
+            <p class="control">
+                <input class="input" type="text" name="title" id="title" placeholder="Card title">
+            </p>
+        </div>
+
+        <div class="field">
+            <label class="label" for="title">Description</label>
+            <p class="control">
+                <textarea class="textarea"  name="description" id="description" placeholder="Card description"></textarea>
+            </p>
         </div>
 
         <div>
