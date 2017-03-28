@@ -7,7 +7,11 @@
     <title>codecards - for people who like to tweet code</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../css/app.css">
-
+    <script>
+        window.Laravel = {!! json_encode([
+        'csrfToken' => csrf_token(),
+    ]) !!};
+    </script>
 
     <style>
         body {
@@ -90,19 +94,20 @@
         <div class="field">
             <label class="label" for="title">Description</label>
             <p class="control">
-                <textarea class="textarea"  name="description" id="description" placeholder="Card description"></textarea>
+                <textarea class="textarea" name="description" id="description"
+                          placeholder="Card description"></textarea>
             </p>
         </div>
 
         <div>
-        <p class="control">
-            <a class="button is-primary" id="create">Create Twitter Card</a>
-        </p>
+            <p class="control">
+                <a class="button is-primary" v-on:click="takeSnapshot2">Create Twitter Card</a>
+            </p>
         </div>
     </div>
     <div class="section">
         <div id="image_id">
-            <img src="" alt="image" />
+            <img src="" alt="image"/>
         </div>
 
     </div>
