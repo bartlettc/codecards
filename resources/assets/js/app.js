@@ -15,6 +15,7 @@ const app = new Vue({
         description: "",
         user: "",
         uuid: "",
+        isActive: false,
         editorOptions: {
             tabSize: 4,
             styleActiveLine: true,
@@ -32,7 +33,7 @@ const app = new Vue({
             console.table(editor);
         },
 
-        takeSnapshot2()  {
+        takeSnapshot()  {
             const codeView = document.getElementById('codemirrorCanvas');
             html2canvas([codeView], {
                 onrendered: function (canvas) {
@@ -42,7 +43,6 @@ const app = new Vue({
                     axios({
                         method: 'post',
                         url: 'getimg',
-
                         data: {
                             imgdata: imgdata,
                             title: this.title,
@@ -51,9 +51,11 @@ const app = new Vue({
                         },
                     }).then(function (response) {
                         this.uuid = response.data;
-                    });
+                        this.isActive = true;
+                    }.bind(this));
                 }.bind(this)
-            })
+            });
+            console.log(this.uuid);
         }
     }
 

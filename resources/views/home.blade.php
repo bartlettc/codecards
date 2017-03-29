@@ -12,66 +12,6 @@
         'csrfToken' => csrf_token(),
     ]) !!};
     </script>
-
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            background-color: #f5f7fa;
-        }
-
-        .logo img {
-            width: 120px;
-        }
-
-        .container {
-            padding-top: 50px;
-            max-width: 968px;
-        }
-
-        .section {
-            margin-top: 40px;
-            border: 1px solid #efefef;
-            border-radius: 5px;
-        }
-
-        .status-header {
-            padding: 40px 40px 80px 40px;
-        }
-
-        .status-header .indicator {
-            display: inline-block;
-            width: 15px;
-            height: 15px;
-            border-radius: 100%;
-            margin-right: 20px;
-            background: #17d766;
-            background: -moz-linear-gradient(top, #17d766 0%, #17d766 50%, #16cf62 51%, #16cf62 100%);
-            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #17d766), color-stop(50%, #17d766), color-stop(51%, #16cf62), color-stop(100%, #16cf62));
-            background: -webkit-linear-gradient(top, #17d766 0%, #17d766 50%, #16cf62 51%, #16cf62 100%);
-            background: -ms-linear-gradient(top, #17d766 0%, #17d766 50%, #16cf62 51%, #16cf62 100%);
-            background: linear-gradient(to bottom, #17d766 0%, #17d766 50%, #16cf62 51%, #16cf62 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#17d766', endColorsGradientType=0);
-            opacity: 0.8;
-            filter: alpha(opacity=80);
-        }
-
-        .status-header .title {
-            display: inline-block;
-        }
-
-        .status-header .subtitle {
-            display: block;
-            margin-left: 35px;
-        }
-
-        .status-footer {
-            padding-left: 20px;
-        }
-
-        .status-footer a {
-            padding: 0 10px;
-        }
-    </style>
 </head>
 <body>
 <div class="container" id="app">
@@ -115,8 +55,8 @@
 
                 <div>
                     <p class="control">
-                        <a class="button is-primary" @click="takeSnapshot2">Create Twitter Card</a>
-                    </p>
+                        <a class="button is-primary" @click="takeSnapshot">Create Twitter Card</a>
+                    </p><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://codecards.xyz/111" data-show-count="false">Tweet</a>
                 </div>
             </div>
         </div>
@@ -131,8 +71,28 @@
             </p>
         </div>
     </div>
-</div>
-<script src="js/app.js"></script>
 
+    <div class="modal" v-bind:class="{ 'is-active' : isActive }">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Modal title</p>
+                <button class="delete"></button>
+            </header>
+            <section class="modal-card-body">
+
+            </section>
+            <footer class="modal-card-foot">
+
+                <a class="button is-success">Save changes</a>
+                <a class="button">Cancel</a>
+            </footer>
+        </div>
+    </div>
+</div>
+
+<script src="js/app.js"></script>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 </body>
 </html>
+
