@@ -17772,7 +17772,7 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     el: '#app',
 
     data: {
-        code: '',
+        code: window.Laravel.code,
         css: '.class { display: block }',
         csrfToken: Laravel.csrfToken,
         title: "",
@@ -17788,6 +17788,16 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             lineWrapping: true,
             theme: 'abcdef',
             matchBrackets: true
+        },
+        displayEditorOptions: {
+            tabSize: 4,
+            styleActiveLine: true,
+            line: true,
+            mode: 'application/x-httpd-php',
+            lineWrapping: true,
+            theme: 'the-matrix',
+            matchBrackets: true,
+            readOnly: true
         }
     },
 
@@ -17807,13 +17817,17 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                         url: 'getimg',
                         data: {
                             imgdata: imgdata,
-                            title: this.title,
-                            description: this.description,
-                            user: this.user
+                            code: this.code,
+                            meta: { 'title': this.title, 'description': this.description, creator: this.user }
                         }
                     }).then(function (response) {
                         this.uuid = response.data;
-                        this.isActive = true;
+                        console.log(response.data);
+                        // this.isActive = true;
+                    }).catch(function (data) {
+
+                        var errors = data.responseJSON;
+                        console.log(errors);
                     }.bind(this));
                 }.bind(this)
             });
@@ -17822,6 +17836,33 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     }
 
 });
+
+// const display = new Vue({
+//     el: '#display',
+//
+//     data: {
+//         code: window.Laravel.code,
+//         css: '.class { display: block }',
+//         csrfToken: Laravel.csrfToken,
+//         title: "",
+//         description: "",
+//         user: "",
+//         uuid: "",
+//         isActive: false,
+//         editorOptions: {
+//             tabSize: 4,
+//             styleActiveLine: true,
+//             line: true,
+//             mode: 'application/x-httpd-php',
+//             lineWrapping: true,
+//             theme: 'the-matrix',
+//             matchBrackets: true,
+//             readOnly:true,
+//         }
+//     },
+//
+//
+// });
 
 /***/ }),
 /* 25 */

@@ -8,7 +8,7 @@ const app = new Vue({
     el: '#app',
 
     data: {
-        code: '',
+        code: window.Laravel.code,
         css: '.class { display: block }',
         csrfToken: Laravel.csrfToken,
         title: "",
@@ -24,6 +24,16 @@ const app = new Vue({
             lineWrapping: true,
             theme: 'abcdef',
             matchBrackets: true,
+        },
+        displayEditorOptions: {
+            tabSize: 4,
+            styleActiveLine: true,
+            line: true,
+            mode: 'application/x-httpd-php',
+            lineWrapping: true,
+            theme: 'the-matrix',
+            matchBrackets: true,
+            readOnly:true,
         }
     },
 
@@ -45,18 +55,51 @@ const app = new Vue({
                         url: 'getimg',
                         data: {
                             imgdata: imgdata,
-                            title: this.title,
-                            description: this.description,
-                            user: this.user,
+                            code: this.code,
+                            meta: { 'title': this.title, 'description': this.description, creator: this.user}
                         },
-                    }).then(function (response) {
-                        this.uuid = response.data;
-                        this.isActive = true;
-                    }.bind(this));
+                    })
+                        .then(function (response) {
+                            this.uuid = response.data;
+                            console.log(response.data);
+                            // this.isActive = true;
+                        })
+                        .catch(function (data) {
+
+                                var errors = data.responseJSON;
+                                console.log(errors);
+                        }.bind(this))
                 }.bind(this)
             });
             console.log(this.uuid);
         }
     }
 
-});
+} );
+
+ // const display = new Vue({
+ //     el: '#display',
+ //
+ //     data: {
+ //         code: window.Laravel.code,
+ //         css: '.class { display: block }',
+ //         csrfToken: Laravel.csrfToken,
+ //         title: "",
+ //         description: "",
+ //         user: "",
+ //         uuid: "",
+ //         isActive: false,
+ //         editorOptions: {
+ //             tabSize: 4,
+ //             styleActiveLine: true,
+ //             line: true,
+ //             mode: 'application/x-httpd-php',
+ //             lineWrapping: true,
+ //             theme: 'the-matrix',
+ //             matchBrackets: true,
+ //             readOnly:true,
+ //         }
+ //     },
+ //
+ //
+ // });
