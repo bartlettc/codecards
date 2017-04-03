@@ -34,6 +34,7 @@
                     <p class="control">
                         <input v-model="user" class="input" type="text" name="user" id="user"
                                placeholder="Username">
+                        @{{ userError }}
                     </p>
                 </div>
 
@@ -42,6 +43,7 @@
                     <p class="control">
                         <input v-model="title" class="input" type="text" name="title" id="title"
                                placeholder="Card title">
+                        @{{ titleError }}
                     </p>
                 </div>
 
@@ -50,6 +52,7 @@
                     <p class="control">
                     <textarea v-model="description" class="textarea" name="description" id="description"
                           placeholder="Card description"></textarea>
+                        @{{ descriptionError }}
                     </p>
                 </div>
 
@@ -83,7 +86,6 @@
 
             </section>
             <footer class="modal-card-foot">
-
                 <a class="button is-success">Save changes</a>
                 <a class="button">Cancel</a>
             </footer>

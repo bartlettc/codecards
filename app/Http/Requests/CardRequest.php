@@ -25,6 +25,17 @@ class CardRequest extends FormRequest
     {
         return [
             'meta.title' => 'required|max:100',
+            'meta.description' => 'required',
+            'meta.creator' => 'required',
+        ];
+    }
+
+    public function messages() {
+
+        return [
+            'meta.title.required' => 'Title is required',
+            'meta.description.required' => 'Description is required',
+            'meta.creator.required' => 'User is required',
         ];
     }
 }

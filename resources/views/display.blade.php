@@ -33,7 +33,7 @@
             <div class="column is-half is-offset-one-quarter">
                 <h1 class="title">{{ $card->meta['title']  }}</h1>
                 <h2 class="subtitle"><a
-                            href="https://twitter.com/{{ $card->twitterUser or '' }}">{{ $card->meta['creator']  or ''}}</a>
+                            href="https://twitter.com/{{ $card->meta['creator'] or '' }}">{{ $card->UserWithAtSymbol  or ''}}</a>
                 </h2>
                 <h1></h1>
                 <div id="codemirrorCanvas" style="width:570px; height:300px;">
@@ -56,6 +56,7 @@
                 <a href="#">Privacy</a>
                 <a href="#">About</a>
                 <a href="#">Github</a>
+
             </p>
         </div>
     </div>

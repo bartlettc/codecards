@@ -16,6 +16,7 @@ const app = new Vue({
         user: "",
         uuid: "",
         isActive: false,
+        ajaxErrors : {},
         editorOptions: {
             tabSize: 4,
             styleActiveLine: true,
@@ -34,13 +35,24 @@ const app = new Vue({
             theme: 'the-matrix',
             matchBrackets: true,
             readOnly:true,
-        }
+        },
+        titleError: '',
+        descriptionError: '',
+        userError: '',
     },
 
     methods: {
 
         onEditorFocus(editor) {
             console.table(editor);
+
+        },
+
+        showErrors() {
+            // console.log( Object.values(this.ajaxErrors) );
+            this.titleError = this.ajaxErrors['meta_title'];
+            this.descriptionError = this.ajaxErrors['meta_description'];
+            this.userError = this.ajaxErrors['meta_user'];
         },
 
         takeSnapshot()  {
@@ -61,17 +73,20 @@ const app = new Vue({
                     })
                         .then(function (response) {
                             this.uuid = response.data;
-                            console.log(response.data);
+                            // console.log(response.data);
                             // this.isActive = true;
                         })
-                        .catch(function (data) {
-
-                                var errors = data.responseJSON;
-                                console.log(errors);
+                        .catch(function (errors) {
+                            const response = errors.response.data;
+                            Object.keys(response).forEach(function(key) {
+                                let keyName = key.replace('.','_');
+                                this.ajaxErrors[keyName] = response[key][0];
+                            }.bind(this))
+                            this.showErrors();
                         }.bind(this))
                 }.bind(this)
             });
-            console.log(this.uuid);
+
         }
     }
 

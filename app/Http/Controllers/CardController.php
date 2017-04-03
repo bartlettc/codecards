@@ -28,7 +28,7 @@ class CardController extends Controller
 
         $input = Input::only('imgdata', 'meta', 'code');
         $filename = $imageService->create($input['imgdata']);
-        $input['meta']['creator'] = $this->addAtSymbol($input['meta']['creator']);
+        $input['meta']['creator'] = $this->removeAtSymbol($input['meta']['creator']);
         $card = new Card;
         $card->ref = $filename;
         $card->meta = $input['meta'];
@@ -47,7 +47,6 @@ class CardController extends Controller
     {
         $card = Card::where(['ref' => $id])->firstOrFail();
         $card->meta = $this->filterMetaAgainstWhiteList($card->meta, self::WHITELIST);
-        $card['twitterUser'] = $this->removeAtSymbol($card->meta['creator']);
         return view('display', ['card' => $card]);
     }
 
@@ -69,13 +68,6 @@ class CardController extends Controller
     }
 
 
-    private function addAtSymbol(string $handle) :string
-    {
-        if(!$handle[0] === '@') {
-            return '@'.$handle;
-        }
-        return $handle;
-    }
 
     private function removeAtSymbol(string $handle) :string
     {
