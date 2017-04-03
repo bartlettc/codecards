@@ -91,30 +91,3 @@ const app = new Vue({
     }
 
 } );
-
- // const display = new Vue({
- //     el: '#display',
- //
- //     data: {
- //         code: window.Laravel.code,
- //         css: '.class { display: block }',
- //         csrfToken: Laravel.csrfToken,
- //         title: "",
- //         description: "",
- //         user: "",
- //         uuid: "",
- //         isActive: false,
- //         editorOptions: {
- //             tabSize: 4,
- //             styleActiveLine: true,
- //             line: true,
- //             mode: 'application/x-httpd-php',
- //             lineWrapping: true,
- //             theme: 'the-matrix',
- //             matchBrackets: true,
- //             readOnly:true,
- //         }
- //     },
- //
- //
- // });
