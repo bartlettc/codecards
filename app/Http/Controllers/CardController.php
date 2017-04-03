@@ -16,20 +16,25 @@ class CardController extends Controller
     /**
      * @param CardRequest $request
      * @param ImageService $imageService
-     * @return array
+     * @return string
      */
-    public function create(CardRequest $request, ImageService $imageService): array
+    public function create(CardRequest $request, ImageService $imageService): string
     {
         $input = Input::only('imgdata', 'meta', 'code');
-        $filename = $imageService->create($input['imgdata']);
         $input['meta']['creator'] = removeAtSymbol($input['meta']['creator']);
+        $filename = $imageService->create($input['imgdata']);
+
+        if (!$filename) {
+            abort(422, 'File not Created');
+        }
+
         $card = new Card;
         $card->ref = $filename;
         $card->meta = $input['meta'];
         $card->code = $input['code'];
         $card->save();
 
-        return [$card->id, $filename];
+        return $filename;
     }
 
 
@@ -43,7 +48,6 @@ class CardController extends Controller
         $card->meta = MetaWhitelistService::filterMetaAgainstWhiteList($card->meta);
         return view('display', ['card' => $card]);
     }
-
 
 
 }
