@@ -18638,7 +18638,12 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
         user: "",
         uuid: "",
         isActive: false,
+        imgFileName: 'x',
         ajaxErrors: {},
+        tweet: '',
+        tweetLink: '',
+        tweetUserLink: '',
+        link: '',
         editorOptions: {
             tabSize: 4,
             styleActiveLine: true,
@@ -18664,22 +18669,30 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     },
 
     methods: {
-        onEditorFocus: function onEditorFocus(editor) {
-            console.table(editor);
-        },
+        onEditorFocus: function onEditorFocus(editor) {},
         showErrors: function showErrors() {
-            // console.log( Object.values(this.ajaxErrors) );
             this.titleError = this.ajaxErrors['meta_title'];
             this.descriptionError = this.ajaxErrors['meta_description'];
-            this.userError = this.ajaxErrors['meta_user'];
+            this.userError = this.ajaxErrors['meta-user'];
+        },
+        handleResponse: function handleResponse(response) {
+            this.imgFileName = response;
+            this.isActive = true;
+            this.link = 'http://codecards.xyz/' + response;
+            this.tweet = this.title + ' - ' + this.link;
+            this.tweetLink = 'https://twitter.com/intent/tweet?text=' + this.tweet;
+            this.tweetUserLink = 'https://twitter.com/' + this.user;
+        },
+        closeModal: function closeModal() {
+            this.isActive = false;
         },
         takeSnapshot: function takeSnapshot() {
             var codeView = document.getElementById('codemirrorCanvas');
             __WEBPACK_IMPORTED_MODULE_3_html2canvas___default()([codeView], {
+                dpi: 144,
                 onrendered: function (canvas) {
                     var imagedata = canvas.toDataURL('image/png');
                     var imgdata = imagedata.replace(/^data:image\/(png|jpg);base64,/, "");
-
                     __WEBPACK_IMPORTED_MODULE_1_axios___default()({
                         method: 'post',
                         url: 'getimg',
@@ -18689,50 +18702,22 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                             meta: { 'title': this.title, 'description': this.description, creator: this.user }
                         }
                     }).then(function (response) {
-                        this.uuid = response.data;
-                        // console.log(response.data);
-                        // this.isActive = true;
-                    }).catch(function (errors) {
-                        var response = errors.response.data;
+                        this.handleResponse(response.data);
+                    }.bind(this)).catch(function (errors) {
+                        var response = errors;
                         Object.keys(response).forEach(function (key) {
+                            //TODO: Work out why errors aren't showing anymore!
                             var keyName = key.replace('.', '_');
                             this.ajaxErrors[keyName] = response[key][0];
+                            console.log(this.ajaxErrors);
+                            this.showErrors();
                         }.bind(this));
-                        this.showErrors();
                     }.bind(this));
                 }.bind(this)
             });
         }
     }
-
 });
-
-// const display = new Vue({
-//     el: '#display',
-//
-//     data: {
-//         code: window.Laravel.code,
-//         css: '.class { display: block }',
-//         csrfToken: Laravel.csrfToken,
-//         title: "",
-//         description: "",
-//         user: "",
-//         uuid: "",
-//         isActive: false,
-//         editorOptions: {
-//             tabSize: 4,
-//             styleActiveLine: true,
-//             line: true,
-//             mode: 'application/x-httpd-php',
-//             lineWrapping: true,
-//             theme: 'the-matrix',
-//             matchBrackets: true,
-//             readOnly:true,
-//         }
-//     },
-//
-//
-// });
 
 /***/ }),
 /* 33 */
@@ -43490,14 +43475,15 @@ exports.push([module.i, "/**\n * \"\n *  Using Zenburn color palette from the Em
 
 /* WEBPACK VAR INJECTION */(function(global) {var require;var require;/*
   html2canvas 0.5.0-beta4 <http://html2canvas.hertzen.com>
-  Copyright (c) 2016 Niklas von Hertzen
+  Copyright (c) 2017 Niklas von Hertzen
+  2017-05-13 Custom build by Erik Koopmans, featuring latest bugfixes and features
 
-  Released under  License
+  Released under MIT License
 */
 
 (function(f){if(true){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.html2canvas = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return require(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 (function (global){
-/*! https://mths.be/punycode v1.4.0 by @mathias */
+/*! https://mths.be/punycode v1.4.1 by @mathias */
 ;(function(root) {
 
 	/** Detect free variables */
@@ -43985,7 +43971,7 @@ exports.push([module.i, "/**\n * \"\n *  Using Zenburn color palette from the Em
 		 * @memberOf punycode
 		 * @type String
 		 */
-		'version': '1.3.2',
+		'version': '1.4.1',
 		/**
 		 * An object of methods to convert from JavaScript's internal character
 		 * representation (UCS-2) to Unicode code points, and back.
@@ -44502,8 +44488,8 @@ function renderWindow(node, container, options, windowWidth, windowHeight) {
     var support = new Support(clonedWindow.document);
     var imageLoader = new ImageLoader(options, support);
     var bounds = getBounds(node);
-    var width = options.type === "view" ? windowWidth : documentWidth(clonedWindow.document);
-    var height = options.type === "view" ? windowHeight : documentHeight(clonedWindow.document);
+    var width = options.type === "view" ? windowWidth : bounds.right + 1;
+    var height = options.type === "view" ? windowHeight : bounds.bottom + 1;
     var renderer = new options.renderer(width, height, imageLoader, options, document);
     var parser = new NodeParser(node, renderer, support, imageLoader, options);
     return parser.ready.then(function() {
@@ -44514,6 +44500,15 @@ function renderWindow(node, container, options, windowWidth, windowHeight) {
             canvas = crop(renderer.canvas, {width: renderer.canvas.width, height: renderer.canvas.height, top: 0, left: 0, x: 0, y: 0});
         } else if (node === clonedWindow.document.body || node === clonedWindow.document.documentElement || options.canvas != null) {
             canvas = renderer.canvas;
+        } else if (options.scale) {
+            var origBounds = {width: options.width != null ? options.width : bounds.width, height: options.height != null ? options.height : bounds.height, top: bounds.top, left: bounds.left, x: 0, y: 0};
+            var cropBounds = {};
+            for (var key in origBounds) {
+                if (origBounds.hasOwnProperty(key)) { cropBounds[key] = origBounds[key] * options.scale; }
+            }
+            canvas = crop(renderer.canvas, cropBounds);
+            canvas.style.width = origBounds.width + 'px';
+            canvas.style.height = origBounds.height + 'px';
         } else {
             canvas = crop(renderer.canvas, {width:  options.width != null ? options.width : bounds.width, height: options.height != null ? options.height : bounds.height, top: bounds.top, left: bounds.left, x: 0, y: 0});
         }
@@ -45256,6 +45251,11 @@ NodeContainer.prototype.parseTransformMatrix = function() {
     return this.transformMatrix;
 };
 
+NodeContainer.prototype.inverseTransform = function() {
+    var transformData = this.parseTransform();
+    return { origin: transformData.origin, matrix: matrixInverse(transformData.matrix) };
+};
+
 NodeContainer.prototype.parseBounds = function() {
     return this.bounds || (this.bounds = this.hasTransform() ? offsetBounds(this.node) : getBounds(this.node));
 };
@@ -45295,6 +45295,14 @@ function parseMatrix(match) {
         });
         return [matrix3d[0], matrix3d[1], matrix3d[4], matrix3d[5], matrix3d[12], matrix3d[13]];
     }
+}
+
+function matrixInverse(m) {
+    // This is programmed specifically for transform matrices, which have a fixed structure.
+    var a = m[0], b = m[2], c = m[4], d = m[1], e = m[3], f = m[5];
+    var det = a*e - b*d;
+    var M = [e, -d, -b, a, b*f-c*e, c*d-a*f].map(function(val) { return val/det; });
+    return M;
 }
 
 function isPercentage(value) {
@@ -45642,11 +45650,15 @@ NodeParser.prototype.paintElement = function(container) {
     var bounds = container.parseBounds();
     this.renderer.clip(container.backgroundClip, function() {
         this.renderer.renderBackground(container, bounds, container.borders.borders.map(getWidth));
-    }, this);
+    }, this, container);
+
+    this.renderer.mask(container.backgroundClip, function() {
+        this.renderer.renderShadows(container, container.borders.clip);
+    }, this, container);
 
     this.renderer.clip(container.clip, function() {
         this.renderer.renderBorders(container.borders.borders);
-    }, this);
+    }, this, container);
 
     this.renderer.clip(container.backgroundClip, function() {
         switch (container.node.nodeName) {
@@ -45676,7 +45688,7 @@ NodeParser.prototype.paintElement = function(container) {
             this.paintFormValue(container);
             break;
         }
-    }, this);
+    }, this, container);
 };
 
 NodeParser.prototype.paintCheckbox = function(container) {
@@ -45699,7 +45711,7 @@ NodeParser.prototype.paintCheckbox = function(container) {
             this.renderer.font(new Color('#424242'), 'normal', 'normal', 'bold', (size - 3) + "px", 'arial');
             this.renderer.text("\u2714", bounds.left + size / 6, bounds.top + size - 1);
         }
-    }, this);
+    }, this, container);
 };
 
 NodeParser.prototype.paintRadio = function(container) {
@@ -45712,7 +45724,7 @@ NodeParser.prototype.paintRadio = function(container) {
         if (container.node.checked) {
             this.renderer.circle(Math.ceil(bounds.left + size / 4) + 1, Math.ceil(bounds.top + size / 4) + 1, Math.floor(size / 2), new Color('#424242'));
         }
-    }, this);
+    }, this, container);
 };
 
 NodeParser.prototype.paintFormValue = function(container) {
@@ -45747,9 +45759,13 @@ NodeParser.prototype.paintFormValue = function(container) {
 NodeParser.prototype.paintText = function(container) {
     container.applyTextTransform();
     var characters = punycode.ucs2.decode(container.node.data);
-    var textList = (!this.options.letterRendering || noLetterSpacing(container)) && !hasUnicode(container.node.data) ? getWords(characters) : characters.map(function(character) {
+    var wordRendering = (!this.options.letterRendering || noLetterSpacing(container)) && !hasUnicode(container.node.data);
+    var textList = wordRendering ? getWords(characters) : characters.map(function(character) {
         return punycode.ucs2.encode([character]);
     });
+    if (!wordRendering) {
+        container.parent.node.style.fontVariantLigatures = 'none';
+    }
 
     var weight = container.parent.fontWeight();
     var size = container.parent.css('fontSize');
@@ -45771,7 +45787,7 @@ NodeParser.prototype.paintText = function(container) {
                 this.renderTextDecoration(container.parent, bounds, this.fontMetrics.getMetrics(family, size));
             }
         }, this);
-    }, this);
+    }, this, container.parent);
 };
 
 NodeParser.prototype.renderTextDecoration = function(container, bounds, metrics) {
@@ -46389,6 +46405,14 @@ Renderer.prototype.renderBackgroundColor = function(container, bounds) {
     }
 };
 
+Renderer.prototype.renderShadows = function(container, shape) {
+    var boxShadow = container.css('boxShadow');
+    if (boxShadow !== 'none') {
+        var shadows = boxShadow.split(/,(?![^(]*\))/);
+        this.shadow(shape, shadows);
+    }
+};
+
 Renderer.prototype.renderBorders = function(borders) {
     borders.forEach(this.renderBorder, this);
 };
@@ -46460,11 +46484,22 @@ var log = _dereq_('../log');
 function CanvasRenderer(width, height) {
     Renderer.apply(this, arguments);
     this.canvas = this.options.canvas || this.document.createElement("canvas");
-    if (!this.options.canvas) {
-        this.canvas.width = width;
-        this.canvas.height = height;
-    }
     this.ctx = this.canvas.getContext("2d");
+    if (!this.options.canvas) {
+        if (this.options.dpi) {
+            this.options.scale = this.options.dpi / 96;   // 1 CSS inch = 96px.
+        }
+        if (this.options.scale) {
+            this.canvas.style.width = width + 'px';
+            this.canvas.style.height = height + 'px';
+            this.canvas.width = Math.floor(width * this.options.scale);
+            this.canvas.height = Math.floor(height * this.options.scale);
+            this.ctx.scale(this.options.scale, this.options.scale);
+        } else {
+            this.canvas.width = width;
+            this.canvas.height = height;
+        }
+    }
     this.taintCtx = this.document.createElement("canvas").getContext("2d");
     this.ctx.textBaseline = "bottom";
     this.variables = {};
@@ -46496,6 +46531,38 @@ CanvasRenderer.prototype.circleStroke = function(left, top, size, color, stroke,
     this.ctx.stroke();
 };
 
+CanvasRenderer.prototype.shadow = function(shape, shadows) {
+    var parseShadow = function(str) {
+        var propertyFilters = { color: /^(#|rgb|hsl|(?!(inset|initial|inherit))\D+)/i, inset: /^inset/i, px: /px$/i };
+        var pxPropertyNames = [ 'x', 'y', 'blur', 'spread' ];
+        var properties = str.split(/ (?![^(]*\))/);
+        var info = {};
+        for (var key in propertyFilters) {
+            info[key] = properties.filter(propertyFilters[key].test.bind(propertyFilters[key]));
+            info[key] = info[key].length === 0 ? null : info[key].length === 1 ? info[key][0] : info[key];
+        }
+        for (var i=0; i<info.px.length; i++) {
+            info[pxPropertyNames[i]] = parseInt(info.px[i]);
+        }
+        return info;
+    };
+    var drawShadow = function(shadow) {
+        var info = parseShadow(shadow);
+        if (!info.inset) {
+            context.shadowOffsetX = info.x;
+            context.shadowOffsetY = info.y;
+            context.shadowColor = info.color;
+            context.shadowBlur = info.blur;
+            context.fill();
+        }
+    };
+    var context = this.setFillStyle('white');
+    context.save();
+    this.shape(shape);
+    shadows.forEach(drawShadow, this);
+    context.restore();
+};
+
 CanvasRenderer.prototype.drawShape = function(shape, color) {
     this.shape(shape);
     this.setFillStyle(color).fill();
@@ -46522,13 +46589,31 @@ CanvasRenderer.prototype.drawImage = function(imageContainer, sx, sy, sw, sh, dx
     }
 };
 
-CanvasRenderer.prototype.clip = function(shapes, callback, context) {
+CanvasRenderer.prototype.clip = function(shapes, callback, context, container) {
     this.ctx.save();
-    shapes.filter(hasEntries).forEach(function(shape) {
-        this.shape(shape).clip();
-    }, this);
+    if (container && container.hasTransform()) {
+        this.setTransform(container.inverseTransform());
+        shapes.filter(hasEntries).forEach(function(shape) {
+            this.shape(shape).clip();
+        }, this);
+        this.setTransform(container.parseTransform());
+    } else {
+        shapes.filter(hasEntries).forEach(function(shape) {
+            this.shape(shape).clip();
+        }, this);
+    }
     callback.call(context);
     this.ctx.restore();
+};
+
+CanvasRenderer.prototype.mask = function(shapes, callback, context, container) {
+    var borderClip = shapes[shapes.length-1];
+    if (borderClip && borderClip.length) {
+        var canvasBorderCCW = ["rect", this.canvas.width, 0, -this.canvas.width, this.canvas.height];
+        var maskShape = [canvasBorderCCW].concat(borderClip).concat([borderClip[0]]);
+        shapes = shapes.slice(0,-1).concat([maskShape]);
+    }
+    this.clip(shapes, callback, context, container);
 };
 
 CanvasRenderer.prototype.shape = function(shape) {
@@ -46545,6 +46630,7 @@ CanvasRenderer.prototype.shape = function(shape) {
 };
 
 CanvasRenderer.prototype.font = function(color, style, variant, weight, size, family) {
+    variant = /^(normal|small-caps)$/i.test(variant) ? variant : '';
     this.setFillStyle(color).font = [style, variant, weight, size, family].join(" ").split(",")[0];
 };
 
@@ -47033,6 +47119,7 @@ module.exports = XHR;
 
 },{}]},{},[4])(4)
 });
+
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ }),

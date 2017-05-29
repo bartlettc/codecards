@@ -24,7 +24,7 @@ class CardRequest extends FormRequest
     public function rules()
     {
         return [
-            'meta.title' => 'required|max:100',
+            'meta.title' => 'required|max:120',
             'meta.description' => 'required',
             'meta.creator' => 'required',
         ];

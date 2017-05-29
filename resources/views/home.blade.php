@@ -42,7 +42,7 @@
                     <label class="label" for="title">Title</label>
                     <p class="control">
                         <input v-model="title" class="input" type="text" name="title" id="title"
-                               placeholder="Card title">
+                               placeholder="Card title" maxlength="120">
                         @{{ titleError }}
                     </p>
                 </div>
@@ -59,7 +59,7 @@
                 <div>
                     <p class="control">
                         <a class="button is-primary" @click="takeSnapshot">Create Twitter Card</a>
-                    </p><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://codecards.xyz/111" data-show-count="false">Tweet</a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -74,27 +74,27 @@
             </p>
         </div>
     </div>
-
     <div class="modal" v-bind:class="{ 'is-active' : isActive }">
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">
-                <p class="modal-card-title">Modal title</p>
-                <button class="delete"></button>
+                <p class="modal-card-title">Your card</p>
+                <button class="delete" @click="closeModal"></button>
             </header>
             <section class="modal-card-body">
-
+            <h2 class="card-h2">@{{ title }}</h2><a title="View card" v-bind:href="link" class="icon pull-right"><i class="fa fa-link"></i></a>
+                <a v-bind:href="tweetUserLink" class="card-user" >@{{ user }}</a>
+            <img :src="'/storage/' + imgFileName + '.png'">
+                @{{ description }}
             </section>
             <footer class="modal-card-foot">
-                <a class="button is-success">Save changes</a>
-                <a class="button">Cancel</a>
+                <a v-bind:href="tweetLink" class="button is-primary">Tweet</a>
+                <a class="button" @click="closeModal">Cancel</a>
             </footer>
         </div>
     </div>
 </div>
-
 <script src="js/app.js"></script>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 </body>
 </html>
 

@@ -9,7 +9,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Storage;
-use Ramsey\Uuid\Uuid;
+//use Ramsey\Uuid\Uuid;
 
 class ImageService
 {
@@ -25,7 +25,7 @@ class ImageService
     {
         $imageData = base64_decode($base64Data, 1);
         if (!$imageData) return false;
-        $fileId = Uuid::uuid4()->toString();
+        $fileId = str_random(8); //Uuid::uuid4()->toString();
         Storage::put($directory.$fileId . '.png', $imageData);
         return $fileId;
 
